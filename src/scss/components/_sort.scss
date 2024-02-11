@@ -12,6 +12,7 @@
 
     b {
       margin-right: 8px;
+      white-space: nowrap;
     }
 
     span {
@@ -20,6 +21,26 @@
       cursor: pointer;
     }
   }
+
+  &__reverse {
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    border: 1px solid #fe5f1e;
+    border-radius: 25px;
+    margin-right: 5px;
+    cursor: pointer;
+    background-color: white;
+    color: #fe5f1e;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      background-color: #fe5f1e;
+      color: white;
+    }
+  }
+  
 
   &__popup {
     position: absolute;
