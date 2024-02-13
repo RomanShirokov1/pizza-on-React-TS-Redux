@@ -40,7 +40,10 @@
       color: white;
     }
   }
-  
+
+  .rotated {
+    transform: rotate(180deg);
+  }
 
   &__popup {
     position: absolute;

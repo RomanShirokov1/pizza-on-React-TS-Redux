@@ -17,8 +17,10 @@ function Sort({ value, onChangeSort, orderValue, onChangeOrder }) {
   return (
     <div className="sort">
       <div className="sort__label">
-        <button onClick={() => onChangeOrder(!orderValue)} className="sort__reverse">
-          ↑↓
+        <button
+          onClick={() => onChangeOrder(!orderValue)}
+          className={orderValue ? 'sort__reverse' : 'sort__reverse rotated'}>
+          ↑↑
         </button>
         <b>Сортировка по:</b>
         <span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
