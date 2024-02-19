@@ -58,6 +58,14 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+
+    svg {
+      margin-right: 5px;
+    }
+
+    i {
+      margin-left: 5px;
+    }
   }
 
   &__price {
