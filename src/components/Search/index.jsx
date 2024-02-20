@@ -1,13 +1,30 @@
 import React from 'react';
 import styles from './Search.module.scss';
 import { AppContext } from '../../App';
+import debounce from 'lodash.debounce';
 
 const Search = () => {
-  const { searchValue, setSearchValue, setCurrentPage } = React.useContext(AppContext);
+  const [value, setValue] = React.useState();
+  const { setSearchValue, setCurrentPage } = React.useContext(AppContext);
+  const inputRef = React.useRef();
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 400),
+    [],
+  );
 
   const onInput = (event) => {
-    setSearchValue(event.target.value);
+    setValue(event.target.value);
     setCurrentPage(1);
+    updateSearchValue(event.target.value);
+  };
+
+  const onInputClear = () => {
+    setSearchValue('');
+    setValue('');
+    inputRef.current.focus();
   };
 
   return (
@@ -16,14 +33,15 @@ const Search = () => {
         <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
       </svg>
       <input
-        value={searchValue}
-        onChange={(event) => onInput(event)}
+        ref={inputRef}
+        value={value}
+        onChange={onInput}
         className={styles.input}
         placeholder="Поиск пиццы..."
       />
-      {searchValue && (
+      {value && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={() => onInputClear()}
           className={styles.clear}
           viewBox="0 0 48 48"
           xmlns="http://www.w3.org/2000/svg">

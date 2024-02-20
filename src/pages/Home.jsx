@@ -1,7 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setCategoryId, setOrder } from '../redux/slices/filterSlice';
+import { setCategoryId, setOrder, setCurrentPage } from '../redux/slices/filterSlice';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
@@ -14,12 +15,12 @@ const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const orderType = useSelector((state) => state.filter.order);
+  const currentPage = useSelector((state) => state.filter.currentPage);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  // const [orderType, setOrderType] = React.useState(true);
   const [totalPages, setTotalPages] = React.useState(1);
-  const { searchValue, currentPage, setCurrentPage } = React.useContext(AppContext);
+  const { searchValue } = React.useContext(AppContext);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -29,19 +30,23 @@ const Home = () => {
     dispatch(setOrder(!orderType));
   };
 
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
+  };
+
   React.useEffect(() => {
     setIsLoading(true);
     const search = searchValue ? `&title=*${searchValue}` : '';
 
-    fetch(
-      `https://066bcc1325295add.mokky.dev/items?page=${currentPage}&limit=4${
-        categoryId > 0 ? `&category=${categoryId}` : ''
-      }&sortBy=${orderType ? '' : '-'}${sortType}${search}`,
-    )
-      .then((res) => res.json())
+    axios
+      .get(
+        `https://066bcc1325295add.mokky.dev/items?page=${currentPage}&limit=4${
+          categoryId > 0 ? `&category=${categoryId}` : ''
+        }&sortBy=${orderType ? '' : '-'}${sortType}${search}`,
+      )
       .then((res) => {
-        const arr = res.items;
-        const meta = res.meta;
+        const arr = res.data.items;
+        const meta = res.data.meta;
         setTotalPages(meta.total_pages);
         setItems(arr);
         setIsLoading(false);
@@ -59,7 +64,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} totalPages={totalPages} />
+      <Pagination onChangePage={onChangePage} totalPages={totalPages} />
     </div>
   );
 };
