@@ -2,11 +2,11 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import { Link } from 'react-router-dom';
 import Search from './Search';
 
-function Header() {
+const Header = () => {
   return (
     <div className="header">
       <div className="container">
-        <Link to="/">
+        <Link to="/pizza-on-React-TS-Redux">
           <div className="header__logo">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
@@ -54,6 +54,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
