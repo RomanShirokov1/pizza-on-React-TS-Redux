@@ -11,6 +11,7 @@ export const list = [
 function Sort({ value, onChangeSort, orderValue, onChangeOrder }) {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
+  const sortRef = React.useRef();
 
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -19,8 +20,21 @@ function Sort({ value, onChangeSort, orderValue, onChangeOrder }) {
     setIsVisible(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsVisible(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <button
           onClick={() => onChangeOrder(!orderValue)}
