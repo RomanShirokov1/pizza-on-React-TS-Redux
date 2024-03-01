@@ -15,7 +15,13 @@ function App() {
 
   return (
     <div className="wrapper">
-      <AppContext.Provider value={{ searchValue, setSearchValue, currentPage, setCurrentPage }}>
+      <AppContext.Provider
+        value={{
+          searchValue,
+          setSearchValue,
+          currentPage,
+          setCurrentPage,
+        }}>
         <Header />
         <div className="content">
           <Routes>
