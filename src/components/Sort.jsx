@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort } from '../redux/slices/filterSlice';
+import { selectSort, setSort, setOrder } from '../redux/slices/filterSlice';
 
 export const list = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -8,9 +8,10 @@ export const list = [
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-function Sort({ value, onChangeSort, orderValue, onChangeOrder }) {
+function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
+  const orderType = useSelector((state) => state.filter.order);
   const sortRef = React.useRef();
 
   const [isVisible, setIsVisible] = React.useState(false);
@@ -33,12 +34,16 @@ function Sort({ value, onChangeSort, orderValue, onChangeOrder }) {
     };
   }, []);
 
+  const onChangeOrder = (orderType) => {
+    dispatch(setOrder(!orderType));
+  };
+
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <button
-          onClick={() => onChangeOrder(!orderValue)}
-          className={orderValue ? 'sort__reverse' : 'sort__reverse rotated'}>
+          onClick={() => onChangeOrder(orderType)}
+          className={orderType ? 'sort__reverse' : 'sort__reverse rotated'}>
           ↑↑
         </button>
         <b>Сортировка по:</b>

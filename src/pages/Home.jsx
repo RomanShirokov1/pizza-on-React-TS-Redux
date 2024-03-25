@@ -5,12 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   setCategoryId,
-  setOrder,
   setCurrentPage,
   setFilters,
   selectFilter,
-  selectSortType,
 } from '../redux/slices/filterSlice';
+
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 import Categories from '../components/Categories';
 import Sort, { list } from '../components/Sort';
@@ -25,15 +24,13 @@ const Home = () => {
   const isMounted = React.useRef(false);
 
   const { items, status, totalPages } = useSelector(selectPizzaData);
-  const { categoryId, orderType, currentPage, searchValue } = useSelector(selectFilter);
-  const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  const { categoryId, order, currentPage, searchValue, sort } = useSelector(selectFilter);
+  const orderType = order;
+  //const sortType = useSelector(selectSortProperty);
+  const sortType = sort.sortProperty;
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
-  };
-
-  const onChangeOrder = () => {
-    dispatch(setOrder(!orderType));
   };
 
   const onChangePage = (number) => {
@@ -91,7 +88,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={(id) => onClickCategory(id)} />
-        <Sort orderValue={orderType} onChangeOrder={() => onChangeOrder(orderType)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (

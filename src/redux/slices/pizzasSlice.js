@@ -8,7 +8,7 @@ export const fetchPizzas = createAsyncThunk(
     const res = await axios.get(
       `https://066bcc1325295add.mokky.dev/items?page=${currentPage}&limit=4${
         categoryId > 0 ? `&category=${categoryId}` : ''
-      }&sortBy=${orderType ? '' : '-'}${sortType}${search}`,
+      }&sortBy=${orderType ? '' + sortType : '-' + sortType}${search}`,
     );
     return res;
   },

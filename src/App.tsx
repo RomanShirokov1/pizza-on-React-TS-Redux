@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import './scss/app.scss';
@@ -7,7 +6,6 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
 
-export const AppContext = React.createContext('');
 
 function App() {
   return (
