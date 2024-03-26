@@ -17,7 +17,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
@@ -29,18 +29,21 @@ const Home = () => {
   //const sortType = useSelector(selectSortProperty);
   const sortType = sort.sortProperty;
 
-  const onClickCategory = (id) => {
+  const onClickCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
   const getPizzas = async () => {
     const search = searchValue ? `&title=*${searchValue}` : '';
 
-    dispatch(fetchPizzas({ search, currentPage, categoryId, orderType, sortType }));
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({ search, currentPage, categoryId, orderType, sortType }),
+    );
 
     window.scrollTo(0, 0);
   };
@@ -81,20 +84,20 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryId, sortType, orderType, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />); //any поменять
 
   const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id) => onClickCategory(id)} />
+        <Categories value={categoryId} onClickCategory={(id: number) => onClickCategory(id)} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
         <div className="content__error-info">
           <h2>
-            Произошла ошибка <icon>😕</icon>
+            Произошла ошибка <span>😕</span>
           </h2>
           <p>Не удалось найти пиццы, повторите попытку позже</p>
         </div>
