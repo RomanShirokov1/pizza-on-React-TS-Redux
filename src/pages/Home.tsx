@@ -90,7 +90,7 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id: number) => onClickCategory(id)} />
+        <Categories value={categoryId} onClickCategory={onClickCategory} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
